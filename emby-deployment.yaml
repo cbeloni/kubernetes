@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emby-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emby
+  template:
+    metadata:
+      labels:
+        app: emby
+    spec:
+      containers:
+      - image: emby/embyserver_arm64v8:4.9.0.21
+        name: emby
+        ports:
+        - containerPort: 8096
+        volumeMounts:
+        - mountPath: /config
+          name: emby-config-storage
+        - mountPath: /mnt/share
+          name: task-pv-storage
+      volumes:
+      - name: emby-config-storage
+        persistentVolumeClaim:
+          claimName: emby-config-claim
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane

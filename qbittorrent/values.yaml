@@ -1,0 +1,31 @@
+persistence:
+  config:
+    enabled: true
+    storageClass: "standard"
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+
+  downloads:
+    enabled: true
+    storageClass: "standard"
+    accessModes:
+      - ReadWriteOnce
+    size: 250Gi
+    mountPath: /mnt/sdcard/torrent/
+
+service:
+  type: LoadBalancer
+  port: 8089
+
+ingress:
+  enabled: false
+
+extraVolumes:
+  - name: torrent-pv-claim
+    persistentVolumeClaim:
+      claimName: torrent-pv-claim
+
+extraVolumeMounts:
+  - mountPath: /mnt/sdcard/torrent/
+    name: torrent-pv-claim
