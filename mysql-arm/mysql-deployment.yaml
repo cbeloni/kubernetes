@@ -13,10 +13,8 @@ spec:
       labels:
         app: mysql
     spec:
-      nodeSelector:
-        nodename: datasaude-k3s-main
       containers:
-      - image: mysql:8.0.33
+      - image: arm64v8/mysql:8.0.37
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
