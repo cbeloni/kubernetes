@@ -2,63 +2,63 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: datasaude-app
-  name: datasaude-app
+    app: datasaude-api
+  name: datasaude-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: datasaude-app
+      app: datasaude-api
   template:
     metadata:
       labels:
-        app: datasaude-app
+        app: datasaude-api
     spec:
       containers:
-        - image: cbeloni/datasaude-app:latest
-          name: datasaude-app
+        - image: cbeloni/datasaude-api-amd64:latest
+          name: datasaude-api
           ports:
-            - containerPort: 3000
+            - containerPort: 8000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: datasaude-app-svc
+  name: datasaude-api-svc
 spec:
   type: ClusterIP
   selector:
-    app: datasaude-app
+    app: datasaude-api
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3000
+      targetPort: 8000
       name: http
 ---    
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: datasaude-app-http
+  name: datasaude-api-http
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "web"
 spec:
   rules:
-    - host: datasaude-app.192.168.0.205.sslip.io
+    - host: datasaude-api.192.168.0.205.sslip.io
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: datasaude-app-svc
+                name: datasaude-api-svc
                 port:
                   number: 80
-    - host: datasaude-app.beloni.dev.br
+    - host: datasaude-api.beloni.dev.br
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: datasaude-app-svc
+                name: datasaude-api-svc
                 port:
-                  number: 80
+                  number: 80                  
