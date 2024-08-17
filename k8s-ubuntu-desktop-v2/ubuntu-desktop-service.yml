@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu-desktop
+  namespace: desktop
+spec:
+  selector:
+    app: ubuntu-desktop
+  ports:
+  - protocol: TCP
+    port: 3389
+    targetPort: 3389
+    name: xrdp
+  - protocol: TCP
+    port: 51413
+    targetPort: 51413
+    name: torrent
+  - protocol: TCP
+    port: 9091
+    targetPort: 9091    
+    name: torrentweb
+  - protocol: UDP
+    port: 51413
+    targetPort: 51413
+    name: torrent2
+  type: LoadBalancer

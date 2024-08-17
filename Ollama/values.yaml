@@ -1,0 +1,19 @@
+ollama:
+  models:
+    - mistral
+
+ingress:
+  enabled: true
+  hosts:
+    - host: ollama.192.168.0.201.sslip.io
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: ollama.187.2.175.237.sslip.io
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: ollama-staging.beloni.dev.br
+      paths:
+        - path: /
+          pathType: Prefix                   

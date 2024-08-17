@@ -12,23 +12,20 @@ spec:
       labels:
         app: emby
     spec:
+      nodeSelector:
+        nodename: raspmain
       containers:
       - image: emby/embyserver_arm64v8:4.9.0.21
         name: emby
         ports:
         - containerPort: 8096
         volumeMounts:
-        - mountPath: /config
-          name: emby-config-storage
         - mountPath: /mnt/share
-          name: task-pv-storage
+          name: emby-pv-storage
       volumes:
-      - name: emby-config-storage
+      - name: emby-pv-storage
         persistentVolumeClaim:
-          claimName: emby-config-claim
-      - name: task-pv-storage
-        persistentVolumeClaim:
-          claimName: task-pv-claim
+          claimName: emby-pv-claim
       tolerations:
       - effect: NoSchedule
         key: node-role.kubernetes.io/control-plane

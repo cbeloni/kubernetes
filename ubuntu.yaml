@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ubuntu-desktop
+  name: ubuntu-desktop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu-desktop
+  template:
+    metadata:
+      labels:
+        app: ubuntu-desktop
+    spec:
+      containers:
+        - image: hectormolinero/xubuntu:latest
+          name: ubuntu-desktop
+          ports:
+            - containerPort: 5901
+            - containerPort: 5900
+            - containerPort: 22
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu-desktop
+spec:
+  selector:
+    app: ubuntu-desktop
+  ports:
+  - protocol: TCP
+    port: 2201
+    targetPort: 22
+    name: x2go
+  - protocol: TCP
+    port: 5900
+    targetPort: 5900
+    name: vnc1
+  - protocol: TCP
+    port: 5901
+    targetPort: 5901
+    name: vnc2
+  type: LoadBalancer           

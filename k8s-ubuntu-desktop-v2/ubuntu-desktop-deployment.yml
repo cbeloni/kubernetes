@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ubuntu-desktop
+  name: ubuntu-desktop
+  namespace: desktop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu-desktop
+  template:
+    metadata:
+      labels:
+        app: ubuntu-desktop
+    spec:
+      nodeSelector:
+        nodename: raspmain
+      containers:
+      - image: hectorm/xubuntu:v119
+        imagePullPolicy: Always
+        name: ubuntu-desktop
+        ports:
+        - containerPort: 3322
+          protocol: TCP
+          name: xrdp
+        - containerPort: 3389
+          protocol: TCP
+          name: xrdp2        
+        - containerPort: 51413
+          protocol: TCP
+          name: torrent 
+        - containerPort: 9091
+          protocol: TCP
+          name: torrentweb      
+        - containerPort: 8096
+          protocol: TCP
+          name: emby               
+        - containerPort: 51413
+          protocol: UDP
+          name: torrent2                  
+        env:
+        - name: UNPRIVILEGED_USER_PASSWORD
+          value: "back1234"
+        - name: UNPRIVILEGED_USER_GROUPS
+          value: "sudo"          
+        volumeMounts:
+        - name: ubuntu-persistent-storage
+          mountPath: /home
+      volumes:
+      - name: ubuntu-persistent-storage
+        persistentVolumeClaim:
+          claimName: ubuntu-pv-claim                          

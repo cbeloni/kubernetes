@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: alpine-desktop
+  name: alpine-desktop
+  namespace: desktop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine-desktop
+  template:
+    metadata:
+      labels:
+        app: alpine-desktop
+    spec:
+      containers:
+      - image: yangxuan8282/alpine-xfce4-novnc:aarch64
+        imagePullPolicy: Always
+        name: alpine-desktop
+        ports:
+        - containerPort: 6080
+          protocol: TCP

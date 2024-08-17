@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-app-svc
+spec:
+  type: ExternalName
+  externalName: 187.2.175.237
+  ports:
+    - port: 80
+      targetPort: 11434
+
