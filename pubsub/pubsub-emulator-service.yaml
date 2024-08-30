@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pubsub-emulator
+spec:
+  selector:
+    app: pubsub-emulator
+  ports:
+  - protocol: TCP
+    port: 8681
+    targetPort: 8681
+  type: LoadBalancer

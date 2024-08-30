@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubsub-emulator-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pubsub-emulator-ui
+  template:
+    metadata:
+      labels:
+        app: pubsub-emulator-ui
+    spec:
+      containers:
+        - name: pubsub-emulator-ui
+          image: echocode/gcp-pubsub-emulator-ui:latest
+          ports:
+            - containerPort: 8680
+          env:
+            - name: PUBSUB_EMULATOR_HOST
+              value: "pubsub-emulator:8681"
+            - name: GCP_PROJECT_IDS
+              value: "MAGA_LOCAL"

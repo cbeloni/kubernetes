@@ -1,0 +1,1 @@
+export KUBECONFIG=/home/caueb/.kube/mgc-k3s-main.yaml

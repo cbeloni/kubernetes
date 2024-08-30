@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubsub-emulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pubsub-emulator
+  template:
+    metadata:
+      labels:
+        app: pubsub-emulator
+    spec:
+      containers:
+        - name: pubsub-emulator
+          image: messagebird/gcloud-pubsub-emulator:latest
+          ports:
+            - containerPort: 8681
+          env:
+            - name: PUBSUB_PROJECT1
+              value: "MAGA_LOCAL,promo3p.worker.core.sync_status_promotion.1:promo3p.worker.core.sync_status_promotion.sub"
